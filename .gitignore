@@ -1,0 +1,8 @@
+output/MiSeq/*
+output/html/*files
+data/MiSeq
+code/*cache
+.Rproj.user/
+*.Rproj
+.Rhistory
+README.html
