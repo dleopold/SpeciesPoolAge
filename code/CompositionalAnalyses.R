@@ -5,6 +5,8 @@
 #' output:
 #'    html_document:
 #'      toc: true
+#'      toc_float: true
+#'      self_contained: true
 #'      highlight: zenburn
 #' ---
 
@@ -23,11 +25,11 @@ registerDoMC(cores=parallel::detectCores())
 #' # Prepare phylogenetic data
 #' Import phylogenetic tree.  
 #' Root on outgroup and drop outgroup for analyses
-tree <- ape::read.tree("metaData/LSU_phylo/result.tcs_weighted_phyml/result.tcs_weighted_phyml_tree.txt") %>%
+tree <- ape::read.tree("data/LSU_phylo/result.tcs_weighted_phyml/result.tcs_weighted_phyml_tree.txt") %>%
   root("KY109285.1") %>% drop.tip("KY109285.1")
 tree$tip.label %<>% paste0("ISO.",.)
 
-#' Make scaled (0-1) phylogenetic distance matrix
+#' Make scaled phylogenetic distance matrix (sqrt transform following Letten & Cornwell 2015)
 Pdist <- cophenetic(tree) %>% .[sort(rownames(.)),sort(rownames(.))] %>% 
   sqrt %>% as.dist(upper=T,diag=F) %>% 
   subtract(.,min(.)) %>% divide_by(.,max(.)) %>% as.matrix
@@ -36,7 +38,7 @@ Pdist <- cophenetic(tree) %>% .[sort(rownames(.)),sort(rownames(.))] %>%
 #' Import phenotypic microarray data
 biolog <- read.csv("output/csv/biolog.csv",row.names=1) %>% .[sort(rownames(.)),]
 
-#' Collapse highly correlated phenotype measurements with PCA
+#' Collapse correlated phenotype measurements with PCA
 biolog_pca <- biolog %>% prcomp(scale=T,rank=10) %>% .$x
 
 #' Make scaled functional distance matrix
@@ -45,13 +47,12 @@ Fdist <- biolog_pca %>% dist(upper=T) %>%
 
 #' # Combined functional/phylogenetic distance
 #' Function based on Cadotte et al 2013
-#' Values of a 0-1 weight phylogenetic vs functional distance, respectively
 FPdist_fun <- function(Pdist,Fdist,a,p=2){
   Pfoo <- a * (Pdist^p) 
   Ffoo <- (1-a) * (Fdist^p)
   (Pfoo + Ffoo)^(1/p)
 }
-FPdist <- FPdist_fun(Pdist,Fdist,0.5) 
+FPdist <- FPdist_fun(Pdist,Fdist,0.5) #equal weighting
 
 #' # Calculate species pool functional / phylogenetic diversity
 #' Load matrix of species pool compositions and pool characteristics
@@ -110,11 +111,11 @@ ggsave("output/figs/Fig2_alt.pdf",height=4, width=8)
 #' # Standardized effect size of mean pairwise distance (ses-mpd)
 #' Load community data from saved phyloseq object
 phy <- readRDS("output/rds/phy.rds") 
-#' extract otu table and log2 transform
+#' extract otu table and apply hellenger transform
 otu.tab <- otu_table(phy) %>% data.frame %>% decostand("hellinger")
 #' Add a column for missing otus (never observed)
-missing <- colnames(pools)[!(colnames(pools) %in% colnames(otu.tab))]
-for(i in 1:length(missing)){otu.tab[[missing[i]]] <- 0}
+#missing <- colnames(pools)[!(colnames(pools) %in% colnames(otu.tab))]
+#for(i in 1:length(missing)){otu.tab[[missing[i]]] <- 0}
 
 #' Filter pools to only include those remaining in the experiment (some lost due to poor sequencing)
 pools.remaining <- rownames(pools)[rownames(pools) %in% sample_data(phy)$poolID]

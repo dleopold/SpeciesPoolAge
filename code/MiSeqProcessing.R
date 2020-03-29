@@ -80,8 +80,6 @@ for(samp in samps){
                           "-G TCCGCTTATTGATATGC",  #REV gene primer
                           "--overlap 17",
                           "-e 0.2",
-                          "--quality-cutoff 10",
-                          "--length 200",
                           "-o ", FWD.out,
                           "-p ", REV.out,
                           "--discard-untrimmed",
@@ -109,7 +107,8 @@ names(R1.filtered) <- samps
 #' filter low quality reads and truncate to 200 bp
 #+ cache=T
 filterAndTrim(R1.trimmed, R1.filtered,
-              maxN=0, 
+              maxN=0,
+              truncLen=200,
               maxEE=2,
               multithread = T)
 
@@ -149,20 +148,20 @@ for(samp in samps){
   #denoise current samp
   samp.path <- paste0(samp,".R1") %>% grep(R1.filtered, value=T)
   # OMEGA_A reduced from default (1e-40) slightly after preliminary check of single species samples to improve denoising
-  denoised <- dada(samp.path, err=errF, multithread=TRUE, priors=priors, verbose=F, OMEGA_A=1e-45)
+  denoised <- dada(samp.path, err=errF, multithread=TRUE, priors=priors, verbose=F, OMEGA_A=1e-45, MIN_ABUNDANCE=2)
   
   #make OTU table 
   otu.table <- makeSequenceTable(denoised)
   
   #remove chimeras
-  otu.table %<>% removeBimeraDenovo(multithread=T)
+  #otu.table %<>% removeBimeraDenovo(multithread=T)
   
   #Identify and rename expected sequences
   #Initial trials with only dada2 "exact" sequence variants did not correctly resolve all expected taxa
   #Collapse sequence variants with < 98% similarity (4bp) difference
   for(i in 1:ncol(otu.table)){
     dists <- stringdist::stringdist(colnames(otu.table)[i],as.character(priors))
-    if(min(dists)<=4){
+    if(min(dists)<4){
       colnames(otu.table)[i] <- names(priors)[order(dists)[1]]}
   }
   otu.table %<>% collapseNoMismatch(identicalOnly = T) #collapse otus assigned to the same expected seq
@@ -292,15 +291,19 @@ for(i in 1:nrow(pools)){
   foo <- pools[i,] %>% c
   pools.mx[i,] <- names(targets) %in% foo
 }
+#' write pool composition matrix to file
+write.csv(pools.mx,"output/csv/pools.mx.csv")
+
 #' summarize pool characteristics
 pools.dat <- data.frame <- data.frame(poolID=as.character(pools$poolID),
                                       pool_rich=apply(pools.mx,1,function(x){ length(isoKey$site_logAge[x]) }),
                                       age_mean=apply(pools.mx,1,function(x){ mean(isoKey$site_logAge[x], na.rm=T) }),
                                       age_var=apply(pools.mx,1,function(x){ var(isoKey$site_logAge[x], na.rm=T) }),
                                       stringsAsFactors =F)
-
 #' Add pool data to sample key
 sampKey %<>% left_join(pools.dat) %>% column_to_rownames("sampID")
+#' Write pool data to file
+write.csv(pools.dat,"output/csv/pools.dat.csv",row.names = F)
 
 #' add mothe plant ID (all half/full sibs)
 sampKey$plantMother <- "A10"

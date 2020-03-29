@@ -1,0 +1,1 @@
+t_coffee -in=LSUseqs_wRoot.fasta -mode=accurate -method=pcma_msa mafft_msa clustalw_msa dialigntx_msa poa_msa muscle_msa probcons_msa t_coffee_msa amap_msa kalign_msa fsa_msa probconsRNA_msa mus4_msa -output=score_html clustalw_aln fasta_aln score_ascii phylip -maxnseq=150 -maxlen=10000 -case=upper -seqnos=off -outorder=input -run_name=result -multi_core=4 -quiet=stdout

@@ -6,3 +6,4 @@ code/*cache
 *.Rproj
 .Rhistory
 README.html
+Rplots*

@@ -5,6 +5,8 @@
 #' output:
 #'    html_document:
 #'      toc: true
+#'      toc_float: true
+#'      self_contained: true
 #'      highlight: zenburn
 #' ---
 
@@ -21,8 +23,6 @@ library(foreach)
 library(doMC)
 #use all resources for parallel processing
 registerDoMC(cores=parallel::detectCores())
-
-sessionInfo()
 
 #' ### Load data and calculate richness and diversity metrics.  
 #'
@@ -124,5 +124,5 @@ gnls.plot.func <- function(gnls.mod, lme.resid.mod,y_frame,y_lab){
 gnls.plot.func(gnls.H0,gnls.H0.residMod.avg,20,"Observed richness")
 ggsave("output/figs/Fig1.pdf",height=5.5, width=11, units="cm") 
 
-
-
+#' ### Dependencies
+sessionInfo()
