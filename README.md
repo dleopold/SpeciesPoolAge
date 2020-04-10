@@ -14,6 +14,6 @@ This repository contains code associated with a plant-fungal microcosm experimen
 
 * The primary analyses associated with this project can be previewed here:  
 [Diversity analyses](https://htmlpreview.github.io/?https://github.com/dleopold/SpeciesPoolAge/master/output/html/DiversityAnalyses.html)  
-[Compositional analyses](https://htmlpreview.github.io/?https://github.com/dleopold/SpeciesPoolAge/master/output/html/CompostionalAnalyses.html)
+[Compositional analyses](https://htmlpreview.github.io/?https://github.com/dleopold/SpeciesPoolAge/master/output/html/CompositionalAnalyses.html)
 
 * In addition to the main project code, additional R scripts used during project planning can be found in folder, `data/ProjectPlanning`. Code showing the process used to design the mock community control samples can be seen [here](https://github.com/dleopold/SpeciesPoolAge/blob/master/data/ProjectPlanning/MocComDesign.R). Details of the random sampling of isolates to create the experimental species pools can be found [here](https://htmlpreview.github.io/?https://github.com/dleopold/SpeciesPoolAge/master/data/ProjectPlanning/PoolDesign.html). 
