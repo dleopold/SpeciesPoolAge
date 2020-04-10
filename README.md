@@ -10,7 +10,9 @@ This repository contains code associated with a plant-fungal microcosm experimen
 
 * Raw Illumina data is archived in the NCBI SRA under [BioProject PRJNA613615](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA613615). In order to run the bioinformatic processing scripts, the raw data should be downloaded to a subfolder `data/MiSeq/` in the project directory.  
 
-* This repository includes the output of the bioinformatic processing, and all associated meta data, which allows the analyses to be recreated without recreating the bioinformatics workflow.  
+* A preview of the bioinformatic processing of the raw Illumina data can be viewed [here](https://htmlpreview.github.io/?https://github.com/dleopold/SpeciesPoolAge/master/output/html/MiSeqProcessing.html).
+
+* This repository includes the output of the bioinformatic processing, and all associated metadata, which allows the analyses to be recreated without recreating the bioinformatics workflow.  
 
 * The primary analyses associated with this project can be previewed here:  
 [Diversity analyses](https://htmlpreview.github.io/?https://github.com/dleopold/SpeciesPoolAge/master/output/html/DiversityAnalyses.html)  

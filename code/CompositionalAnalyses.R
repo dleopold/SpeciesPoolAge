@@ -28,7 +28,6 @@ registerDoMC(cores=parallel::detectCores())
 #' Root on outgroup and drop outgroup for analyses
 tree <- read.tree("data/LSU_phylo/result.tcs_weighted_phyml/result.tcs_weighted_phyml_tree.txt") %>%
   root("KY109285.1") %>% drop.tip("KY109285.1") 
-tree$tip.label %<>% paste0("ISO.",.)
 
 #' Make scaled phylogenetic distance matrix (sqrt transform following Letten & Cornwell 2015)
 Pdist <- cophenetic(tree) %>% .[sort(rownames(.)),sort(rownames(.))] %>% 
