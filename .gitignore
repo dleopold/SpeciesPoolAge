@@ -7,3 +7,4 @@ code/*cache
 .Rhistory
 README.html
 Rplots*
+**/*.RData

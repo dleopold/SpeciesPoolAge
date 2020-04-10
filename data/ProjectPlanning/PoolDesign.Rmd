@@ -1,0 +1,224 @@
+---
+title: "Species Pool Experimental Design"
+author: "D Leopold"
+date: "December 17, 2015"
+output: html_document
+---
+
+```{r prepare R environment, results='hide', message=F, warning=F, cache=F,echo=F}
+load("~/Downloads/rstudio-export/globalPOOLs.RData")
+library(magrittr)
+library(dplyr)
+library(tidyr)
+library(dissUtils)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(TeachingDemos)
+
+seed <- "2016-01-03 09:08:32"#Sys.time()
+char2seed("2016-01-03 09:08:32")
+
+#set up pool paramters
+maxPool <- 30
+minPool <- 2
+
+#thin all pools to unique parameter combos 
+trimINDEX <- tapply(1:nrow(ISOids),
+                    paste(numSPP,possVar,possMean),
+                    FUN=function(x){
+                      x[sample.int(length(x),1)]
+                    })
+
+ISOids_thin <- ISOids[trimINDEX,]
+numSPP_thin <- numSPP[trimINDEX]
+possMean_thin <- possMean[trimINDEX]
+possVar_thin <- possVar[trimINDEX]
+
+#NEW WAY
+scaleNUM <- scale(numSPP_thin) %>% as.numeric 
+scaleVar <- scale(possVar_thin) %>% as.numeric #%>% multiply_by(2)
+scaleMean <- scale(possMean_thin) %>% as.numeric #%>% multiply_by(1.5)
+POOLS <- NULL
+STATS <- NULL
+BinTMP <- Bins %>% data.frame 
+#select first pool
+Bindex <- sample(1:nrow(Bins), 1) #could use fixed val ~14
+CurBin <- Bins %>% data.frame %>% .[Bindex,]
+BinTMP %<>% .[-Bindex,]
+possPools <-numSPP_thin >= CurBin$minNum & numSPP_thin <= CurBin$maxNum &
+  possVar_thin >= CurBin$minVar & possVar_thin <= CurBin$maxVar &
+  possMean_thin >= CurBin$minMean & possMean_thin <= CurBin$maxMean
+POOLS <- 1:nrow(ISOids_thin) %>% .[possPools] %>% sample(1)
+
+while(nrow(BinTMP)>0){
+  
+  Bindex <- sample(1:nrow(BinTMP), 1) 
+  CurBin <- BinTMP[Bindex,]
+  BinTMP %<>% .[-Bindex,] 
+  possPools <- numSPP_thin >= CurBin$minNum & numSPP_thin <= CurBin$maxNum &
+    possVar_thin >= CurBin$minVar & possVar_thin <= CurBin$maxVar &
+    possMean_thin >= CurBin$minMean & possMean_thin <= CurBin$maxMean
+  m1 <- cbind(scaleVar[possPools],scaleMean[possPools]) %>% as.matrix
+  m2 <- cbind(scaleVar[POOLS],scaleMean[POOLS]) %>% as.matrix
+  distMX <- diss(m1,m2)
+  closest <- apply(distMX,1,min)
+  newPoolIndex <- which(closest==max(closest)) %>% .[sample.int(length(.),1)]
+  
+  POOLS <-  1:nrow(ISOids_thin) %>% .[possPools] %>% .[newPoolIndex] %>% c(POOLS)
+}
+
+POOLSdf <- data.frame(num=numSPP_thin[POOLS],var=possVar_thin[POOLS],mean=possMean_thin[POOLS])
+```
+
+***
+Random seed = `r seed`
+
+Total numer of isolates = `r nrow(OTUsims)`   
+Number of 97% ITS2 OTUs = `r length(unique(OTUsims$ITS2_97OTUs))`   
+   
+Number of pools = `r nrow(POOLSdf)`   
+Number of replicates = 4   
+Minimum pool size = `r minPool`    
+Maximum pool size = `r maxPool`    
+
+***
+
+```{r plot variable relationships ,echo=F, fig.width=8, fig.height=2.5}
+
+trimAll <- data.frame(numSPP=numSPP_thin,
+                      possMean=possMean_thin,
+                      possVar=possVar_thin)
+
+pannel1 <- ggplot(trimAll,aes(numSPP,possMean)) +
+  geom_point(size=3.55,colour="lightgrey") +
+  geom_point(data=POOLSdf,aes(num,mean),size=2,colour="black") +
+  xlim(c(0,maxPool)) +
+  xlab("Species pool size") +
+  ylab("Mean log(age)") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.title=element_blank(),axis.title = element_text(size=15),legend.key = element_blank(),axis.text = element_text(size=12),panel.background = element_rect(colour = 'black',size=1.5),plot.margin= unit(c(1, 1, 1, 1), "lines"),axis.title.x=element_text(vjust=-0.2),axis.title.y=element_text(vjust=1.3))
+
+pannel2 <- ggplot(trimAll,aes(numSPP,possVar)) +
+  geom_point(size=3.5,colour="lightgrey") +
+  geom_point(data=POOLSdf,aes(num,var),size=2,colour="black") +
+  xlim(c(0,maxPool)) +
+  xlab("Species pool size") +
+  ylab("Variance log(age)") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.title=element_blank(),axis.title = element_text(size=15),legend.key = element_blank(),axis.text = element_text(size=12),panel.background = element_rect(colour = 'black',size=1.5),plot.margin= unit(c(1, 1, 1, 1), "lines"),axis.title.x=element_text(vjust=-0.2),axis.title.y=element_text(vjust=1.3))
+
+pannel3 <- ggplot(trimAll,aes(possMean,possVar)) +
+  geom_point(size=3.5,colour="lightgrey") +
+  geom_point(data=POOLSdf,aes(mean,var),size=2,colour="black") +
+  xlab("Mean log(age") +
+  ylab("Variance log(age)") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.title=element_blank(),axis.title = element_text(size=15),legend.key = element_blank(),axis.text = element_text(size=12),panel.background = element_rect(colour = 'black',size=1.5),plot.margin= unit(c(1, 1, 1, 1), "lines"),axis.title.x=element_text(vjust=-0.2),axis.title.y=element_text(vjust=1.3))
+
+grid.arrange(pannel1,pannel2,pannel3,ncol=3)
+```
+
+***
+
+```{r plot ISO occurance,echo=F, fig.width=8, fig.height=4}
+SiteColors <- c("#006600","#00CC00","#000099","#0099FF","#FF6600")
+
+occurDF <- data.frame(IDnum=OTUsims$ISO_ID[IDnum],
+                 count=sapply(IDnum,function(x){
+                   (ISOids_thin[POOLS,]==x) %>% sum(na.rm=T) }),
+                 site=OTUsims$site) %>% .[order(.$site, .$count),]
+occurDF$IDfact=factor(occurDF$IDnum,as.character(occurDF$IDnum),labels=)
+occurDF$site %<>% factor(labels=c("Thur","Olaa","Laup","Kohala","Kokee"))
+
+ggplot(occurDF,aes(IDfact,count,fill=site)) + 
+  geom_bar(stat='identity') +
+  scale_fill_manual(values=SiteColors) +
+  ggtitle("Number of pools containing each isolate") +
+  labs(x="Isolate ID",y="Count") +
+  theme_bw() +
+  theme(axis.text.x=element_text(angle=90,size=9,vjust=0.5)) 
+          
+```
+
+------
+
+```{r,echo=F, warning=F, fig.width=8, fig.height=10}
+compDF <- ISOids_thin[POOLS,] %>% apply(.,1:2,FUN=function(x){OTUsims$site[x]}) 
+
+compOUT <- NULL
+for(i in (1:length(POOLS))){
+  a <- grepl("A",compDF[i,]) %>% sum
+  b <- grepl("B",compDF[i,]) %>% sum
+  c <- grepl("C",compDF[i,]) %>% sum
+  d <- grepl("D",compDF[i,]) %>% sum
+  f <- grepl("F",compDF[i,]) %>% sum
+  compOUT %<>% rbind(.,c(i,a,b,c,d,f))
+}
+compOUT[compOUT==0] <- NA
+compOUT %<>% as.data.frame 
+colnames(compOUT) <- c("PoolID","A","B","C","D","F")
+compOUT$PoolID %<>% factor %>% reorder(rowSums(compOUT[,-1],na.rm=T))
+compStats <- cbind(compOUT,POOLSdf)
+compOUT %<>% gather(.,key=PoolID,na.rm=T)
+colnames(compOUT) <- c("PoolID","site","count")
+compOUT$site %<>% factor(labels=c("Thur","Olaa","Laup","Kohala","Kokee"))
+#compOUT$PoolID %<>% factor(.,levels=compStats$PoolID)
+
+compPLOT <- ggplot(compOUT,aes(x=PoolID,y=count,fill=site)) +
+  geom_bar(stat="identity") +
+  scale_y_continuous(expand = c(0,0)) +
+  ggtitle("Species pool composition by site") +
+  scale_fill_manual(values=SiteColors) +
+  coord_flip() +
+  labs(y="# of isolates", x="Pool ID") +
+  theme_bw() + theme(legend.position="none",plot.margin = unit(c(1,0.35,1,1), "lines"))
+
+compStats$Smean <- compStats$mean %>% scale
+meanPLOT <- ggplot(compStats,aes(x=PoolID,y=Smean)) +
+  geom_bar(stat="identity") +
+  ggtitle("Fill") +
+  coord_flip() +
+  labs(y="mean age", x="") +
+  theme_bw() +
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(color="white"),
+        axis.ticks=element_blank(),plot.title=element_text(color="white"),
+        plot.margin = unit(c(1,0,1,0), "lines"),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+compStats$Svar <- compStats$var %>% scale
+varPLOT <- ggplot(compStats,aes(x=PoolID,y=Svar)) +
+  geom_bar(stat="identity") +
+  ggtitle("Fill") +
+  coord_flip() +
+  labs(y="age var", x="") +
+  theme_bw() +
+  theme(axis.text.y=element_blank(),axis.text.x=element_text(color="white"),
+        axis.ticks=element_blank(),plot.title=element_text(color="white"),
+        plot.margin = unit(c(1,1,1,0), "lines"),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+grid.arrange(compPLOT,meanPLOT,varPLOT,ncol=3, widths=c(4.5, 1,1.25))
+```
+
+---------------
+
+**Pool communities**
+
+```{r table of pools,echo=F}
+
+ISOPools <- ISOids_thin[POOLS,] %>% apply(.,1:2,FUN=function(x){OTUsims$ISO_ID[x]}) 
+for (i in (1:nrow(ISOPools))){
+  fillAMT <- 1000-(POOLSdf$num[i]*30)
+  paste("Pool ID =",i,"Fill amt =",fillAMT) %>% print
+  ISOPools[i,!(ISOPools[i,] %>% is.na)] %>% paste(sep="", collapse=" ") %>% 
+    strwrap(width = 1.2 * getOption("width")) %>% print
+  print("~~~~~~~~~~~~~~~~~~~")
+}
+
+```
+
+```{r, echo=F}
+FinalPools <- cbind(POOLSdf,ISOPools)
+save(FinalPools,file=paste0(seed,".RData"))
+```
+

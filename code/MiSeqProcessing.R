@@ -5,7 +5,7 @@
 #' output:
 #'    html_document:
 #'      toc: true
-#'      toc_float: true
+#'      toc_float: false
 #'      self_contained: true
 #'      highlight: zenburn
 #' ---
@@ -94,6 +94,7 @@ for(samp in samps){
 #' Initial screening suggests that quality drops off drastically at 150 bp (dramatically for R2) limiting our ability to successfully denoise and merge reads. Since only known sequences are expected and diversity should be low in the microcosms it should be fine to just use R1 and cropping at 200bp, which retains sufficient sequence length to distinguish all isolates. 
 
 # Plot example quality profile
+#+ fig.align="center", fig.asp=4/8
 plotQualityProfile(c("output/MiSeq/cutadapt/Sp99.R1.trim.fastq.gz","output/MiSeq/cutadapt/Sp99.R2.trim.fastq.gz"))
 
 #' Identify paths to fwd trimmed reads.
@@ -120,7 +121,7 @@ filterAndTrim(R1.trimmed, R1.filtered,
 dir.create("output/MiSeq/dada2", showWarnings = F)
 
 #' learn errors 
-#+ cache=T
+#+ cache=T, fig.align="center", fig.asp=4/6, out.width="75%"
 errF <- learnErrors(R1.filtered, multithread = T, randomize = T, nbases = 1e9)
 plotErrors(errF, nominalQ=TRUE)
 
@@ -254,6 +255,7 @@ mock.obs <- full.otu.table %>% .[grepl("^M",rownames(.)),] %>% .[,colSums(.)>0] 
 mock.known <- mock %>% pivot_longer(-Spp,names_to = "pool", values_to = "known")
 
 #' observed vs. expected looks fairly good, with some evidence for possible species specific biases
+#+ fig.align="center", fig.asp=8/11, out.width="75%"
 full_join(mock.obs,mock.known) %>% 
   ggplot(aes(x=known,y=observed,color=Spp))+
   ggbeeswarm::geom_quasirandom()+
@@ -262,6 +264,7 @@ full_join(mock.obs,mock.known) %>%
   theme_classic()+
   theme(legend.position = "none")
 #' plot for individual species - clearly some taxa are not as easily detected, but overall there is very good evidence that read abundance tracks known abundance for any given taxa used in the experiment. 
+#+ fig.align="center", fig.asp=8/11, out.width="75%"
 full_join(mock.obs,mock.known) %>% 
   ggplot(aes(x=known,y=observed))+
   geom_point()+
@@ -277,6 +280,7 @@ full_join(mock.obs,mock.known) %>%
 #' Convert to phyloseq object
 otu_tab <- full.otu.table %>% .[grepl("^Sp",rownames(.)),] %>% otu_table(taxa_are_rows = F)
 #' Set of poorly sequenced outlier samples with less than 1500 reads can be removed
+#+ fig.align="center", out.width="50%", out.height="50%"
 data.frame(depth=sort(rowSums(otu_tab))) %>%
   mutate(index=1:nrow(.)) %>%
   ggplot(aes(y=depth,x=index))+

@@ -5,7 +5,7 @@
 #' output:
 #'    html_document:
 #'      toc: true
-#'      toc_float: true
+#'      toc_float: false
 #'      self_contained: true
 #'      highlight: zenburn
 #' ---
@@ -120,7 +120,7 @@ gnls.plot.func <- function(gnls.mod, lme.resid.mod,y_frame,y_lab){
           legend.key.height=unit(0.5,"cm"))
   plot.out
 }
-#+ fig.width=8, fig.height=4.5, dpi=150
+#+ fig.align="center", out.width="90%", fig.asp=5.5/11
 gnls.plot.func(gnls.H0,gnls.H0.residMod.avg,20,"Observed richness")
 ggsave("output/figs/Fig1.pdf",height=5.5, width=11, units="cm") 
 

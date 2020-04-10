@@ -5,7 +5,7 @@
 #' output:
 #'    html_document:
 #'      toc: true
-#'      toc_float: true
+#'      toc_float: false
 #'      self_contained: true
 #'      highlight: zenburn
 #' ---
@@ -17,6 +17,7 @@ library(magrittr)
 library(phyloseq)
 library(picante)
 library(ape)
+library(nlme)
 library(foreach)
 library(doMC)
 #use all resources for parallel processing
@@ -25,8 +26,8 @@ registerDoMC(cores=parallel::detectCores())
 #' # Prepare phylogenetic data
 #' Import phylogenetic tree.  
 #' Root on outgroup and drop outgroup for analyses
-tree <- ape::read.tree("data/LSU_phylo/result.tcs_weighted_phyml/result.tcs_weighted_phyml_tree.txt") %>%
-  root("KY109285.1") %>% drop.tip("KY109285.1")
+tree <- read.tree("data/LSU_phylo/result.tcs_weighted_phyml/result.tcs_weighted_phyml_tree.txt") %>%
+  root("KY109285.1") %>% drop.tip("KY109285.1") 
 tree$tip.label %<>% paste0("ISO.",.)
 
 #' Make scaled phylogenetic distance matrix (sqrt transform following Letten & Cornwell 2015)
@@ -56,7 +57,8 @@ FPdist <- FPdist_fun(Pdist,Fdist,0.5) #equal weighting
 
 #' # Calculate species pool functional / phylogenetic diversity
 #' Load matrix of species pool compositions and pool characteristics
-pools <- read.csv("output/csv/pools.mx.csv", as.is=T, header=T, row.names = 1) %>% .[,order(colnames(.))]
+pools <- read.csv("output/csv/pools.mx.csv", as.is=T, header=T, row.names = 1) %>% 
+  .[,order(colnames(.))]
 pools.dat <- read.csv("output/csv/pools.dat.csv", as.is=T, header=T) 
 
 #' Species pool 21 is an extreme outlier in terms of FPdist (Bonferroni p = 5.0199e-05 from car::outlierTest) so we will remove it. Howver, this does not affect significance or magnitude of overall trends.
@@ -74,12 +76,14 @@ lm(FPdist~pool_rich+age_var+age_mean,data = pools.dat) %>% summary
 lm(FPdist~pool_rich+age_var+age_mean,data = pools.dat) %>% rsq::rsq.partial()
 
 #' ## Plot species pool age vs functional / phylogenetic diversity
+#+  fig.align="center", fig.asp=8/11, out.width="75%"
 pools.dat %>% 
   ggplot(aes(age_mean,FPdist)) +
   stat_smooth(method="lm",colour="black",size=0.5) +
   geom_point(aes(size=pool_rich),shape=19,alpha=0.4) +
   scale_size(range = c(0.5,5.5))+
-  labs(x=expression("Mean "*log[10]*"(age)"), y="Mean-pairwise functional /\n phylogenetic distance") +
+  labs(x=expression("Mean "*log[10]*"(age)"), 
+       y="Mean-pairwise functional /\n phylogenetic distance") +
   theme_classic() +
   theme(legend.position = "none",
         axis.title = element_text(size=11),
@@ -91,6 +95,7 @@ ggsave("output/figs/Fig2.pdf",height=8, width=11, units="cm")
 
 #' ## Plot species pool age or variance vs functional / phylogenetic diversity
 pan.lett <- data.frame(metric=c("Mean age","Variance age"),lab=c("(a)","(b)"))
+#+ fig.align="center", fig.asp=4/8
 pools.dat %>% 
   transmute(richness=pool_rich,"Mean age"=age_mean,"Variance age"=age_var,FPdist=FPdist) %>%
   gather("metric","X",2:3) %>% 
@@ -131,18 +136,22 @@ ses.dat <- ses.func(otu.tab,FPdist)
 
 #' test variation in ses.mpd
 ses.dat %<>% merge(data.frame(sample_data(phy)),by=0) %>% drop_na
-(ses.mod <- nlme::lme(mpd.obs.z~pool_rich+age_mean+age_var,data=ses.dat, random=~1|poolID,method="ML")) %>% drop1(test="Chisq")
+(ses.mod <- lme(mpd.obs.z~pool_rich+age_mean+age_var,data=ses.dat, random=~1|poolID,method="ML")) %>% 
+  drop1(test="Chisq")
 
 #' summarize means of species pool reps for plotting trend line
-ses.dat.means <- ses.dat %>% group_by(poolID,age_mean,pool_rich,age_var) %>% summarize(mpd.obs.z=mean(mpd.obs.z))
+ses.dat.means <- ses.dat %>% group_by(poolID,age_mean,pool_rich,age_var) %>% 
+  summarize(mpd.obs.z=mean(mpd.obs.z))
 #' Plot SES.mpd results
+#+  fig.align="center", fig.asp=8/11, out.width="75%"
 ggplot(ses.dat, aes(x=age_mean,y=mpd.obs.z))+
   geom_hline(aes(yintercept=0),alpha=0.3,linetype="dashed",size=0.5)+
   xlim(c(min(ses.dat$age_mean),max(ses.dat$age_mean)))+
   stat_smooth(data=ses.dat.means,method="lm",colour="black",size=0.5) +
   geom_point(aes(size=pool_rich),shape=19,alpha=0.3) +
   scale_size(range = c(0.5,3.5))+
-  labs(y="Standardized effect size of\nmean pairwise distance",x=expression("Mean "*log[10]*"(age)")) +
+  labs(y="Standardized effect size of\nmean pairwise distance",
+       x=expression("Mean "*log[10]*"(age)")) +
   theme_classic() +
   theme(legend.position = "none",
         axis.title = element_text(size=11),
