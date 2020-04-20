@@ -16,6 +16,7 @@ library(tidyverse)
 library(magrittr)
 library(phyloseq)
 library(pals)
+library(ggtext)
 library(ggthemes)
 library(vegan)
 library(nlme)
@@ -98,31 +99,34 @@ gnls.plot.func <- function(gnls.mod, lme.resid.mod,y_frame,y_lab){
   rng.frame <- data.frame(X=c(0,30),Y=c(0,y_frame))
   ###PLOT###
   plot.out <- ggplot(predictions, aes(x=pool_rich, y=mean)) +
-    geom_rangeframe(data=rng.frame, aes(x=X,y=Y),size=0.3) +
+    geom_rangeframe(data=rng.frame, aes(x=X,y=Y),size=0.75) +
     geom_point(data=dat.raw, aes(x=X,y=Y,fill=age_mean),
-               position=position_jitter(),shape=21,size=1.8,color="black",stroke=0.2) +
-    scale_fill_gradientn(colours = coolwarm(1000)[c(rep(1,100),1:1000,rep(1000,100))],name="Species\npool\nage") +
-    stat_smooth(method=loess,linetype="dashed",color="black",size=0.5) +
-    stat_smooth(aes(color=ageLab,y=predictions$HiLo),method=loess,se=F,size=0.5) +
+               position=position_jitter(),shape=21,size=2.5,color="black",stroke=0.5) +
+    scale_fill_gradientn(colours = coolwarm(1000)[c(rep(1,100),1:1000,rep(1000,100))],
+                         name="Species pool age<br>mean log<sub>10</sub>(age)") +
+    stat_smooth(method=loess,linetype="dashed",color="black",size=0.75) +
+    stat_smooth(aes(color=ageLab,y=HiLo),method=loess,se=F,size=1) +
     scale_color_manual(values=coolwarm(10)[c(9,2)],name="Effect of\nspecies pool\nage") +
     labs(y=y_lab,x="Species pool richness") +
-    geom_abline(slope=1,intercept=0,linetype="dashed",color="grey50",size=0.5) +
-    guides(colour=F, fill = guide_colorbar(ticks = FALSE)) +
+    geom_abline(slope=1,intercept=0,linetype="dotted",color="grey50",size=0.75) +
     theme_classic() +
-    theme(axis.title = element_text(size=11),
-          axis.text = element_text(size=8),
+    theme(axis.title = element_text(size=14),
+          axis.text = element_text(size=10),
           axis.ticks = element_line(size=0.12),
           axis.ticks.length = unit(.05, "cm"),
           axis.line=element_blank(),
-          legend.text = element_text(size=8),
-          legend.title = element_text(size=8),
-          legend.key.width=unit(0.3,"cm"),
-          legend.key.height=unit(0.5,"cm"))
+          legend.text = element_text(size=10),
+          legend.title = element_markdown(size=12),
+          legend.key.width=unit(0.6,"cm"),
+          legend.key.height=unit(0.4,"cm"),
+          legend.position=c(0.14,0.84),
+          legend.direction = "horizontal") +
+    guides(colour=F, fill = guide_colorbar(ticks = FALSE, title.position="top"))
   plot.out
 }
 #+ fig.align="center", out.width="90%", fig.asp=5.5/11
 gnls.plot.func(gnls.H0,gnls.H0.residMod.avg,20,"Observed richness")
-ggsave("output/figs/Fig1.pdf",height=5.5, width=11, units="cm") 
+ggsave("output/figs/Fig1.pdf",height=10, width=18, units="cm") 
 
 #' ### Dependencies
 sessionInfo()

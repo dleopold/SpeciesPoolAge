@@ -135,8 +135,7 @@ ses.dat <- ses.func(otu.tab,FPdist)
 
 #' test variation in ses.mpd
 ses.dat %<>% merge(data.frame(sample_data(phy)),by=0) %>% drop_na
-(ses.mod <- lme(mpd.obs.z~pool_rich+age_mean+age_var,data=ses.dat, random=~1|poolID,method="ML")) %>% 
-  drop1(test="Chisq")
+(ses.mod <- lme(mpd.obs.z~pool_rich+age_var+age_mean,data=ses.dat, random=~1|poolID,method="REML")) %>% summary
 
 #' summarize means of species pool reps for plotting trend line
 ses.dat.means <- ses.dat %>% group_by(poolID,age_mean,pool_rich,age_var) %>% 
