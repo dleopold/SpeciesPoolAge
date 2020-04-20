@@ -1142,488 +1142,54 @@ summary {
 <a class="sourceLine" id="cb54-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">index=</span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(.)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb54-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y=</span>depth,<span class="dt">x=</span>index))<span class="op">+</span></a>
 <a class="sourceLine" id="cb54-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_boxplot</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="dv">1500</span>,<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="dv">1500</span>,<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_classic</span>()</a></code></pre></div>
 <pre><code>## Warning: Continuous x aesthetic -- did you forget aes(group=...)?</code></pre>
-<p><img src="data:image/png;base64,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" width="600px" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">  <span class="kw">theme_classic</span>()</a></code></pre></div>
-<pre><code>## List of 93
-##  $ line                      :List of 6
-##   ..$ colour       : chr &quot;black&quot;
-##   ..$ size         : num 0.5
-##   ..$ linetype     : num 1
-##   ..$ lineend      : chr &quot;butt&quot;
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_line&quot; &quot;element&quot;
-##  $ rect                      :List of 5
-##   ..$ fill         : chr &quot;white&quot;
-##   ..$ colour       : chr &quot;black&quot;
-##   ..$ size         : num 0.5
-##   ..$ linetype     : num 1
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_rect&quot; &quot;element&quot;
-##  $ text                      :List of 11
-##   ..$ family       : chr &quot;&quot;
-##   ..$ face         : chr &quot;plain&quot;
-##   ..$ colour       : chr &quot;black&quot;
-##   ..$ size         : num 11
-##   ..$ hjust        : num 0.5
-##   ..$ vjust        : num 0.5
-##   ..$ angle        : num 0
-##   ..$ lineheight   : num 0.9
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 0pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ title                     : NULL
-##  $ aspect.ratio              : NULL
-##  $ axis.title                : NULL
-##  $ axis.title.x              :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : num 1
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 2.75pt 0pt 0pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.title.x.top          :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : num 0
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 2.75pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.title.x.bottom       : NULL
-##  $ axis.title.y              :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : num 1
-##   ..$ angle        : num 90
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 2.75pt 0pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.title.y.left         : NULL
-##  $ axis.title.y.right        :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : num 0
-##   ..$ angle        : num -90
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 0pt 2.75pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.text                 :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr &quot;grey30&quot;
-##   ..$ size         : 'rel' num 0.8
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.text.x               :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : num 1
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 2.2pt 0pt 0pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.text.x.top           :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : num 0
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 2.2pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.text.x.bottom        : NULL
-##  $ axis.text.y               :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : num 1
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 2.2pt 0pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.text.y.left          : NULL
-##  $ axis.text.y.right         :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : num 0
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 0pt 2.2pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ axis.ticks                :List of 6
-##   ..$ colour       : chr &quot;grey20&quot;
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_line&quot; &quot;element&quot;
-##  $ axis.ticks.x              : NULL
-##  $ axis.ticks.x.top          : NULL
-##  $ axis.ticks.x.bottom       : NULL
-##  $ axis.ticks.y              : NULL
-##  $ axis.ticks.y.left         : NULL
-##  $ axis.ticks.y.right        : NULL
-##  $ axis.ticks.length         : 'unit' num 2.75pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ axis.ticks.length.x       : NULL
-##  $ axis.ticks.length.x.top   : NULL
-##  $ axis.ticks.length.x.bottom: NULL
-##  $ axis.ticks.length.y       : NULL
-##  $ axis.ticks.length.y.left  : NULL
-##  $ axis.ticks.length.y.right : NULL
-##  $ axis.line                 :List of 6
-##   ..$ colour       : chr &quot;black&quot;
-##   ..$ size         : 'rel' num 1
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_line&quot; &quot;element&quot;
-##  $ axis.line.x               : NULL
-##  $ axis.line.x.top           : NULL
-##  $ axis.line.x.bottom        : NULL
-##  $ axis.line.y               : NULL
-##  $ axis.line.y.left          : NULL
-##  $ axis.line.y.right         : NULL
-##  $ legend.background         :List of 5
-##   ..$ fill         : NULL
-##   ..$ colour       : logi NA
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_rect&quot; &quot;element&quot;
-##  $ legend.margin             : 'margin' num [1:4] 5.5pt 5.5pt 5.5pt 5.5pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ legend.spacing            : 'unit' num 11pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ legend.spacing.x          : NULL
-##  $ legend.spacing.y          : NULL
-##  $ legend.key                : list()
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_blank&quot; &quot;element&quot;
-##  $ legend.key.size           : 'unit' num 1.2lines
-##   ..- attr(*, &quot;valid.unit&quot;)= int 3
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;lines&quot;
-##  $ legend.key.height         : NULL
-##  $ legend.key.width          : NULL
-##  $ legend.text               :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : 'rel' num 0.8
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ legend.text.align         : NULL
-##  $ legend.title              :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : num 0
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ legend.title.align        : NULL
-##  $ legend.position           : chr &quot;right&quot;
-##  $ legend.direction          : NULL
-##  $ legend.justification      : chr &quot;center&quot;
-##  $ legend.box                : NULL
-##  $ legend.box.just           : NULL
-##  $ legend.box.margin         : 'margin' num [1:4] 0cm 0cm 0cm 0cm
-##   ..- attr(*, &quot;valid.unit&quot;)= int 1
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;cm&quot;
-##  $ legend.box.background     : list()
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_blank&quot; &quot;element&quot;
-##  $ legend.box.spacing        : 'unit' num 11pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ panel.background          :List of 5
-##   ..$ fill         : chr &quot;white&quot;
-##   ..$ colour       : logi NA
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_rect&quot; &quot;element&quot;
-##  $ panel.border              : list()
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_blank&quot; &quot;element&quot;
-##  $ panel.spacing             : 'unit' num 5.5pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ panel.spacing.x           : NULL
-##  $ panel.spacing.y           : NULL
-##  $ panel.grid                :List of 6
-##   ..$ colour       : chr &quot;grey92&quot;
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ lineend      : NULL
-##   ..$ arrow        : logi FALSE
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_line&quot; &quot;element&quot;
-##  $ panel.grid.major          : list()
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_blank&quot; &quot;element&quot;
-##  $ panel.grid.minor          : list()
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_blank&quot; &quot;element&quot;
-##  $ panel.grid.major.x        : NULL
-##  $ panel.grid.major.y        : NULL
-##  $ panel.grid.minor.x        : NULL
-##  $ panel.grid.minor.y        : NULL
-##  $ panel.ontop               : logi FALSE
-##  $ plot.background           :List of 5
-##   ..$ fill         : NULL
-##   ..$ colour       : chr &quot;white&quot;
-##   ..$ size         : NULL
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_rect&quot; &quot;element&quot;
-##  $ plot.title                :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : 'rel' num 1.2
-##   ..$ hjust        : num 0
-##   ..$ vjust        : num 1
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 5.5pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ plot.title.position       : chr &quot;panel&quot;
-##  $ plot.subtitle             :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : num 0
-##   ..$ vjust        : num 1
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 0pt 0pt 5.5pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ plot.caption              :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : 'rel' num 0.8
-##   ..$ hjust        : num 1
-##   ..$ vjust        : num 1
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 5.5pt 0pt 0pt 0pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ plot.caption.position     : chr &quot;panel&quot;
-##  $ plot.tag                  :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : 'rel' num 1.2
-##   ..$ hjust        : num 0.5
-##   ..$ vjust        : num 0.5
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ plot.tag.position         : chr &quot;topleft&quot;
-##  $ plot.margin               : 'margin' num [1:4] 5.5pt 5.5pt 5.5pt 5.5pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ strip.background          :List of 5
-##   ..$ fill         : chr &quot;white&quot;
-##   ..$ colour       : chr &quot;black&quot;
-##   ..$ size         : 'rel' num 2
-##   ..$ linetype     : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_rect&quot; &quot;element&quot;
-##  $ strip.background.x        : NULL
-##  $ strip.background.y        : NULL
-##  $ strip.placement           : chr &quot;inside&quot;
-##  $ strip.text                :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : chr &quot;grey10&quot;
-##   ..$ size         : 'rel' num 0.8
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : NULL
-##   ..$ lineheight   : NULL
-##   ..$ margin       : 'margin' num [1:4] 4.4pt 4.4pt 4.4pt 4.4pt
-##   .. ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   .. ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ strip.text.x              : NULL
-##  $ strip.text.y              :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : num -90
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  $ strip.switch.pad.grid     : 'unit' num 2.75pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ strip.switch.pad.wrap     : 'unit' num 2.75pt
-##   ..- attr(*, &quot;valid.unit&quot;)= int 8
-##   ..- attr(*, &quot;unit&quot;)= chr &quot;pt&quot;
-##  $ strip.text.y.left         :List of 11
-##   ..$ family       : NULL
-##   ..$ face         : NULL
-##   ..$ colour       : NULL
-##   ..$ size         : NULL
-##   ..$ hjust        : NULL
-##   ..$ vjust        : NULL
-##   ..$ angle        : num 90
-##   ..$ lineheight   : NULL
-##   ..$ margin       : NULL
-##   ..$ debug        : NULL
-##   ..$ inherit.blank: logi TRUE
-##   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;element_text&quot; &quot;element&quot;
-##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;theme&quot; &quot;gg&quot;
-##  - attr(*, &quot;complete&quot;)= logi TRUE
-##  - attr(*, &quot;validate&quot;)= logi TRUE</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">otu_tab <span class="op">%&lt;&gt;%</span><span class="st"> </span>.[<span class="kw">rowSums</span>(otu_tab)<span class="op">&gt;</span><span class="dv">2000</span>,]</a></code></pre></div>
+<p><img src="data:image/png;base64,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Q0Pbu+kBAH1O11f0Q4YMGTVq1JQpU1paWrZu3Tp27NhHH31URJ544omeHQ8A0F1dhz41NTU1NdW3vu6663pwHgCAxroO/bx58zZs2FBdXf3b3/72j3/847Rp03p4LACAVroO/YoVK6qrq+12u8FgWLt27b59+1auXNnDkwEANNH1L2M3bdr09ttvDxs2LCws7IMPPti8eXMPjwUA0ErXob9w4cLFixd968bGxssvv7wHRwIAaKnr0C9atGjSpEnHjx8vLCz84Q9/uGDBgh4eCwCgla7v0efk5IwZM2bHjh3Nzc0vv/zy2LFje3gsAIBWOod+zZo1bWvf597s2bPns88+u//++3t0LgCARjrfumlsbGxsbKyqqlq9erXD4XA6nUVFRcePH9dlOABA93W+ov/1r38tIjfccENNTc0VV1whIsuXL//xj3+8YsUKHaYDAHRb17+M/de//tX2GfQDBgw4depUD44EANBS17+MveOOO+66664FCxYYDIYXXnhh8uTJPTwWAEArXYe+uLj4lVde2bhxo9FonDp16pw5c3p4LACAVroOfURExPz58+fPn9/D03Rfc3PzkiVLIiIi9B4EAEL05ZdfpqWlaXjArkPfpx09elTvEQCgW1paWjQ8mmqhNxqNDz300KBBg/QeBABCVFFRQegvxWAw3HTTTXFxcXoPAgAhOnXq1JEjRzQ8YNdvrwQAKIPQA4DiCD0AKI7QA4DiCD0AKI7QA4DiCD0AKI7QA4DiCD0AKI7QA4DiCD0AKI7QA4DiCD0AKI7QA4DiQv+YYo/HU1BQ4PV6IyMjly9fbjQai4qK3G53YmJiVlaW1+sNfKvd6QAAOgv9ir68vDwtLa2goGDEiBG7du2qrKyMj4/Pz893Op0OhyOorYbnAwDoJPTQJycnT5gwQUTMZnNERITNZrNarSJitVptNltQW03OBADQpdBDn5KSYrFYqqurP/744/T0dI/HExMTIyIWi8Xtdge19R3w6aefHjt27Lp167xerwZnBgAQkW7+MnbLli0VFRWPPPKIyWQymUwul0tEXC6X2WwOaus72vz58997771Zs2aFhYV197QAAP8Weuj37t3rdruXLVsWGRkpIsnJyXa7XUTq6uqSkpKC2voOGBUVNWzYsIEDBxoMhu6dFACgXeihr62tPXDgQF5eXl5e3u7duzMzM+vr6wsL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" width="600px" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">otu_tab <span class="op">%&lt;&gt;%</span><span class="st"> </span>.[<span class="kw">rowSums</span>(otu_tab)<span class="op">&gt;</span><span class="dv">2000</span>,]</a></code></pre></div>
 <div id="add-metadata" class="section level3">
 <h3>Add metadata</h3>
 <p>convert species pool key into presence absence matrix</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">pools.mx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow=</span><span class="kw">nrow</span>(pools),<span class="dt">ncol=</span><span class="kw">length</span>(targets), <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pools), <span class="kw">names</span>(targets)))</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pools)){</a>
-<a class="sourceLine" id="cb59-3" data-line-number="3">  foo &lt;-<span class="st"> </span>pools[i,] <span class="op">%&gt;%</span><span class="st"> </span>c</a>
-<a class="sourceLine" id="cb59-4" data-line-number="4">  pools.mx[i,] &lt;-<span class="st"> </span><span class="kw">names</span>(targets) <span class="op">%in%</span><span class="st"> </span>foo</a>
-<a class="sourceLine" id="cb59-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">pools.mx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow=</span><span class="kw">nrow</span>(pools),<span class="dt">ncol=</span><span class="kw">length</span>(targets), <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pools), <span class="kw">names</span>(targets)))</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pools)){</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3">  foo &lt;-<span class="st"> </span>pools[i,] <span class="op">%&gt;%</span><span class="st"> </span>c</a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">  pools.mx[i,] &lt;-<span class="st"> </span><span class="kw">names</span>(targets) <span class="op">%in%</span><span class="st"> </span>foo</a>
+<a class="sourceLine" id="cb57-5" data-line-number="5">}</a></code></pre></div>
 <p>write pool composition matrix to file</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">write.csv</span>(pools.mx,<span class="st">&quot;output/csv/pools.mx.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">write.csv</span>(pools.mx,<span class="st">&quot;output/csv/pools.mx.csv&quot;</span>)</a></code></pre></div>
 <p>summarize pool characteristics</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">pools.dat &lt;-<span class="st"> </span>data.frame &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">poolID=</span><span class="kw">as.character</span>(pools<span class="op">$</span>poolID),</a>
-<a class="sourceLine" id="cb61-2" data-line-number="2">                                      <span class="dt">pool_rich=</span><span class="kw">apply</span>(pools.mx,<span class="dv">1</span>,<span class="cf">function</span>(x){ <span class="kw">length</span>(isoKey<span class="op">$</span>site_logAge[x]) }),</a>
-<a class="sourceLine" id="cb61-3" data-line-number="3">                                      <span class="dt">age_mean=</span><span class="kw">apply</span>(pools.mx,<span class="dv">1</span>,<span class="cf">function</span>(x){ <span class="kw">mean</span>(isoKey<span class="op">$</span>site_logAge[x], <span class="dt">na.rm=</span>T) }),</a>
-<a class="sourceLine" id="cb61-4" data-line-number="4">                                      <span class="dt">age_var=</span><span class="kw">apply</span>(pools.mx,<span class="dv">1</span>,<span class="cf">function</span>(x){ <span class="kw">var</span>(isoKey<span class="op">$</span>site_logAge[x], <span class="dt">na.rm=</span>T) }),</a>
-<a class="sourceLine" id="cb61-5" data-line-number="5">                                      <span class="dt">stringsAsFactors =</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">pools.dat &lt;-<span class="st"> </span>data.frame &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">poolID=</span><span class="kw">as.character</span>(pools<span class="op">$</span>poolID),</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">                                      <span class="dt">pool_rich=</span><span class="kw">apply</span>(pools.mx,<span class="dv">1</span>,<span class="cf">function</span>(x){ <span class="kw">length</span>(isoKey<span class="op">$</span>site_logAge[x]) }),</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">                                      <span class="dt">age_mean=</span><span class="kw">apply</span>(pools.mx,<span class="dv">1</span>,<span class="cf">function</span>(x){ <span class="kw">mean</span>(isoKey<span class="op">$</span>site_logAge[x], <span class="dt">na.rm=</span>T) }),</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">                                      <span class="dt">age_var=</span><span class="kw">apply</span>(pools.mx,<span class="dv">1</span>,<span class="cf">function</span>(x){ <span class="kw">var</span>(isoKey<span class="op">$</span>site_logAge[x], <span class="dt">na.rm=</span>T) }),</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">                                      <span class="dt">stringsAsFactors =</span>F)</a></code></pre></div>
 <p>Add pool data to sample key</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">sampKey <span class="op">%&lt;&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(pools.dat) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;sampID&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">sampKey <span class="op">%&lt;&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(pools.dat) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;sampID&quot;</span>)</a></code></pre></div>
 <pre><code>## Joining, by = &quot;poolID&quot;</code></pre>
 <p>Write pool data to file</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">write.csv</span>(pools.dat,<span class="st">&quot;output/csv/pools.dat.csv&quot;</span>,<span class="dt">row.names =</span> F)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">write.csv</span>(pools.dat,<span class="st">&quot;output/csv/pools.dat.csv&quot;</span>,<span class="dt">row.names =</span> F)</a></code></pre></div>
 <p>add mothe plant ID (all half/full sibs)</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">sampKey<span class="op">$</span>plantMother &lt;-<span class="st"> &quot;A10&quot;</span></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">sampKey<span class="op">$</span>plantMother[(sampKey<span class="op">$</span>plantID <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span> <span class="op">&amp;</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">160</span>) <span class="op">|</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">==</span><span class="st"> </span><span class="dv">321</span>] &lt;-<span class="st"> &quot;A11&quot;</span></a>
-<a class="sourceLine" id="cb65-3" data-line-number="3">sampKey<span class="op">$</span>plantMother[(sampKey<span class="op">$</span>plantID <span class="op">&gt;</span><span class="st"> </span><span class="dv">160</span> <span class="op">&amp;</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">240</span>) <span class="op">|</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">==</span><span class="st"> </span><span class="dv">322</span>] &lt;-<span class="st"> &quot;A6&quot;</span></a>
-<a class="sourceLine" id="cb65-4" data-line-number="4">sampKey<span class="op">$</span>plantMother[(sampKey<span class="op">$</span>plantID <span class="op">&gt;</span><span class="st"> </span><span class="dv">240</span> <span class="op">&amp;</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">320</span>) <span class="op">|</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">==</span><span class="st"> </span><span class="dv">324</span>] &lt;-<span class="st"> &quot;A30&quot;</span></a>
-<a class="sourceLine" id="cb65-5" data-line-number="5">sampKey<span class="op">$</span>plantMother <span class="op">%&lt;&gt;%</span><span class="st"> </span>factor</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">sampKey<span class="op">$</span>plantMother &lt;-<span class="st"> &quot;A10&quot;</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">sampKey<span class="op">$</span>plantMother[(sampKey<span class="op">$</span>plantID <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span> <span class="op">&amp;</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">160</span>) <span class="op">|</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">==</span><span class="st"> </span><span class="dv">321</span>] &lt;-<span class="st"> &quot;A11&quot;</span></a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">sampKey<span class="op">$</span>plantMother[(sampKey<span class="op">$</span>plantID <span class="op">&gt;</span><span class="st"> </span><span class="dv">160</span> <span class="op">&amp;</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">240</span>) <span class="op">|</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">==</span><span class="st"> </span><span class="dv">322</span>] &lt;-<span class="st"> &quot;A6&quot;</span></a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">sampKey<span class="op">$</span>plantMother[(sampKey<span class="op">$</span>plantID <span class="op">&gt;</span><span class="st"> </span><span class="dv">240</span> <span class="op">&amp;</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">&lt;=</span><span class="st"> </span><span class="dv">320</span>) <span class="op">|</span><span class="st"> </span>sampKey<span class="op">$</span>plantID <span class="op">==</span><span class="st"> </span><span class="dv">324</span>] &lt;-<span class="st"> &quot;A30&quot;</span></a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">sampKey<span class="op">$</span>plantMother <span class="op">%&lt;&gt;%</span><span class="st"> </span>factor</a></code></pre></div>
 <p>Combine otu table and sample data into phyloseq object</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">phy &lt;-<span class="st"> </span><span class="kw">phyloseq</span>(</a>
-<a class="sourceLine" id="cb66-2" data-line-number="2">  otu_tab,</a>
-<a class="sourceLine" id="cb66-3" data-line-number="3">  <span class="kw">sample_data</span>(sampKey)</a>
-<a class="sourceLine" id="cb66-4" data-line-number="4">)</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">phy &lt;-<span class="st"> </span><span class="kw">phyloseq</span>(</a>
+<a class="sourceLine" id="cb64-2" data-line-number="2">  otu_tab,</a>
+<a class="sourceLine" id="cb64-3" data-line-number="3">  <span class="kw">sample_data</span>(sampKey)</a>
+<a class="sourceLine" id="cb64-4" data-line-number="4">)</a></code></pre></div>
 <p>Save phyloseq object</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">saveRDS</span>(phy,<span class="st">&quot;output/rds/phy.rds&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">saveRDS</span>(phy,<span class="st">&quot;output/rds/phy.rds&quot;</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="session-info" class="section level2">
 <h2>Session info</h2>
 <p>cutadapt</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw">system2</span>(<span class="st">&quot;/home/harpua/miniconda3/bin/cutadapt&quot;</span>, <span class="dt">args =</span> <span class="st">&quot;--version&quot;</span>, <span class="dt">stdout =</span> T) </a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">system2</span>(<span class="st">&quot;/home/harpua/miniconda3/bin/cutadapt&quot;</span>, <span class="dt">args =</span> <span class="st">&quot;--version&quot;</span>, <span class="dt">stdout =</span> T) </a></code></pre></div>
 <pre><code>## [1] &quot;2.7&quot;</code></pre>
 <p>R</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
 <pre><code>## R version 3.6.3 (2020-02-29)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Pop!_OS 19.10
@@ -1648,59 +1214,59 @@ summary {
 ##  [1] phyloseq_1.30.0     knitr_1.28          foreach_1.5.0      
 ##  [4] Biostrings_2.54.0   XVector_0.26.0      IRanges_2.20.2     
 ##  [7] S4Vectors_0.24.3    BiocGenerics_0.32.0 dada2_1.15.1       
-## [10] Rcpp_1.0.3          magrittr_1.5        forcats_0.4.0      
+## [10] Rcpp_1.0.4.6        magrittr_1.5        forcats_0.4.0      
 ## [13] stringr_1.4.0       dplyr_0.8.5         purrr_0.3.3        
-## [16] readr_1.3.1         tidyr_1.0.2         tibble_2.1.3       
+## [16] readr_1.3.1         tidyr_1.0.2         tibble_3.0.0       
 ## [19] ggplot2_3.3.0.9000  tidyverse_1.3.0    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] ggbeeswarm_0.6.0            colorspace_1.4-1           
-##  [3] hwriter_1.3.2               GenomicRanges_1.38.0       
-##  [5] fs_1.3.1                    rstudioapi_0.11            
-##  [7] farver_2.0.3                fansi_0.4.1                
-##  [9] lubridate_1.7.4             xml2_1.2.2                 
-## [11] codetools_0.2-16            splines_3.6.3              
-## [13] ade4_1.7-13                 jsonlite_1.6.1             
-## [15] Rsamtools_2.2.1             broom_0.5.4                
-## [17] cluster_2.1.0               dbplyr_1.4.2               
-## [19] png_0.1-7                   compiler_3.6.3             
-## [21] httr_1.4.1                  backports_1.1.5            
-## [23] assertthat_0.2.1            Matrix_1.2-18              
-## [25] cli_2.0.2                   htmltools_0.4.0            
-## [27] tools_3.6.3                 igraph_1.2.4.2             
-## [29] gtable_0.3.0                glue_1.3.1                 
-## [31] GenomeInfoDbData_1.2.2      reshape2_1.4.3             
-## [33] ShortRead_1.44.3            Biobase_2.46.0             
-## [35] cellranger_1.1.0            vctrs_0.2.4                
-## [37] multtest_2.42.0             ape_5.3                    
-## [39] nlme_3.1-144                iterators_1.0.12           
-## [41] xfun_0.12                   rvest_0.3.5                
-## [43] lifecycle_0.1.0             zlibbioc_1.32.0            
-## [45] MASS_7.3-51.5               scales_1.1.0               
-## [47] hms_0.5.3                   SummarizedExperiment_1.16.1
-## [49] biomformat_1.14.0           rhdf5_2.30.1               
-## [51] RColorBrewer_1.1-2          yaml_2.2.1                 
-## [53] latticeExtra_0.6-29         stringi_1.4.6              
-## [55] highr_0.8                   permute_0.9-5              
-## [57] BiocParallel_1.20.1         GenomeInfoDb_1.22.0        
-## [59] rlang_0.4.5                 pkgconfig_2.0.3            
-## [61] matrixStats_0.55.0          bitops_1.0-6               
-## [63] evaluate_0.14               lattice_0.20-40            
-## [65] Rhdf5lib_1.8.0              GenomicAlignments_1.22.1   
-## [67] labeling_0.3                tidyselect_1.0.0           
-## [69] plyr_1.8.6                  R6_2.4.1                   
-## [71] generics_0.0.2              DelayedArray_0.12.2        
-## [73] DBI_1.1.0                   pillar_1.4.3               
-## [75] haven_2.2.0                 withr_2.1.2                
-## [77] mgcv_1.8-31                 survival_3.1-11            
-## [79] RCurl_1.98-1.1              modelr_0.1.5               
-## [81] crayon_1.3.4                rmarkdown_2.1              
-## [83] jpeg_0.1-8.1                grid_3.6.3                 
-## [85] readxl_1.3.1                data.table_1.12.8          
-## [87] vegan_2.5-6                 reprex_0.3.0               
-## [89] digest_0.6.25               RcppParallel_4.4.4         
-## [91] munsell_0.5.0               beeswarm_0.2.3             
-## [93] vipor_0.4.5</code></pre>
+##  [3] hwriter_1.3.2               ellipsis_0.3.0             
+##  [5] GenomicRanges_1.38.0        fs_1.3.1                   
+##  [7] rstudioapi_0.11             farver_2.0.3               
+##  [9] fansi_0.4.1                 lubridate_1.7.4            
+## [11] xml2_1.2.2                  codetools_0.2-16           
+## [13] splines_3.6.3               ade4_1.7-13                
+## [15] jsonlite_1.6.1              Rsamtools_2.2.1            
+## [17] broom_0.5.4                 cluster_2.1.0              
+## [19] dbplyr_1.4.2                png_0.1-7                  
+## [21] compiler_3.6.3              httr_1.4.1                 
+## [23] backports_1.1.6             assertthat_0.2.1           
+## [25] Matrix_1.2-18               cli_2.0.2                  
+## [27] htmltools_0.4.0             tools_3.6.3                
+## [29] igraph_1.2.4.2              gtable_0.3.0               
+## [31] glue_1.4.0                  GenomeInfoDbData_1.2.2     
+## [33] reshape2_1.4.4              ShortRead_1.44.3           
+## [35] Biobase_2.46.0              cellranger_1.1.0           
+## [37] vctrs_0.2.4                 multtest_2.42.0            
+## [39] ape_5.3                     nlme_3.1-144               
+## [41] iterators_1.0.12            xfun_0.12                  
+## [43] rvest_0.3.5                 lifecycle_0.2.0            
+## [45] zlibbioc_1.32.0             MASS_7.3-51.5              
+## [47] scales_1.1.0                hms_0.5.3                  
+## [49] SummarizedExperiment_1.16.1 biomformat_1.14.0          
+## [51] rhdf5_2.30.1                RColorBrewer_1.1-2         
+## [53] yaml_2.2.1                  latticeExtra_0.6-29        
+## [55] stringi_1.4.6               highr_0.8                  
+## [57] permute_0.9-5               BiocParallel_1.20.1        
+## [59] GenomeInfoDb_1.22.0         rlang_0.4.5                
+## [61] pkgconfig_2.0.3             matrixStats_0.55.0         
+## [63] bitops_1.0-6                evaluate_0.14              
+## [65] lattice_0.20-40             Rhdf5lib_1.8.0             
+## [67] GenomicAlignments_1.22.1    labeling_0.3               
+## [69] tidyselect_1.0.0            plyr_1.8.6                 
+## [71] R6_2.4.1                    generics_0.0.2             
+## [73] DelayedArray_0.12.2         DBI_1.1.0                  
+## [75] pillar_1.4.3                haven_2.2.0                
+## [77] withr_2.1.2                 mgcv_1.8-31                
+## [79] survival_3.1-11             RCurl_1.98-1.1             
+## [81] modelr_0.1.5                crayon_1.3.4               
+## [83] rmarkdown_2.1               jpeg_0.1-8.1               
+## [85] grid_3.6.3                  readxl_1.3.1               
+## [87] data.table_1.12.8           vegan_2.5-6                
+## [89] reprex_0.3.0                digest_0.6.25              
+## [91] RcppParallel_4.4.4          munsell_0.5.0              
+## [93] beeswarm_0.2.3              vipor_0.4.5</code></pre>
 </div>
 
 

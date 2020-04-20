@@ -14,7 +14,7 @@ housekeeping:
 
 ### Process raw MiSeq data ###
 miseq: output/html/MiSeqProcessing.html
-output/html/MiSeqProcessing.html output/rds/phy.rds: code/MiSeqProcessing.R | housekeeping
+output/html/MiSeqProcessing.html output/rds/phy.rds output/csv/pools.dat.csv: code/MiSeqProcessing.R | housekeeping
 	Rscript -e 'rmarkdown::render("$<", output_dir = "output/html", knit_root_dir = "$(CURDIR)")'
 
 ### Process raw phenotypic microarray data ###
@@ -23,7 +23,7 @@ output/csv/biolog.csv: code/biolog.R | housekeeping
 	Rscript $< 
 
 ### Analyses ###
-analyses: diversity composition
+analyses: diversity composition supplemental
 
 diversity: output/html/DiversityAnalyses.html
 output/html/DiversityAnalyses.html: code/DiversityAnalyses.R output/rds/phy.rds | housekeeping
@@ -32,3 +32,10 @@ output/html/DiversityAnalyses.html: code/DiversityAnalyses.R output/rds/phy.rds 
 composition: output/html/CompositionalAnalyses.html
 output/html/CompositionalAnalyses.html: code/CompositionalAnalyses.R output/rds/phy.rds output/csv/biolog.csv | housekeeping
 	Rscript -e 'rmarkdown::render("$<", output_dir = "output/html", knit_root_dir = "$(CURDIR)")'
+	
+supplemental: output/figs/FigS1.pdf output/figs/FigS3.pdf
+output/figs/FigS1.pdf: code/phylotree.R | housekeeping
+	Rscript $<
+output/figs/FigS3.pdf: code/plantData.R output/csv/pools.dat.csv | housekeeping
+	Rscript $<
+	

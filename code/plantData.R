@@ -1,34 +1,43 @@
+# Exploration of the realtionship between fungal species pool characteristics and host plant measurements
 
-### Plant data exploraion
-plant <- dat %>% select(shoot_g,root_g,pctN,pctC,numSpp,age.avg,age.var) %>%
-  gather(key=measurement,value=response,shoot_g,root_g,pctN,pctC) %>%
-  gather(key=treatment,predictor,numSpp,age.avg,age.var) %>%
-  mutate(measurement=factor(measurement),treatment=factor(treatment))
+library(tidyverse)
+library(magrittr)
+library(ggtext)
 
-levels(plant$measurement) <- 
-  list("Shoot~biomass~(g)"="shoot_g",
-       "Root~biomass~(g)"="root_g",
-       "Leaf~'%'~N"="pctN",
-       "Leaf~'%'~C"="pctC")
+plant.dat <- read.csv("data/PlantData.csv",as.is = T) %>% 
+  drop_na %>% filter(poolID!=21) %>% select(-shoot_dry) %>%
+  pivot_longer(4:7,values_to = "response", names_to="measurement") %>%
+  left_join(read.csv("output/csv/pools.dat.csv",as.is=T) %>% select(1:4) %>% 
+              mutate(poolID=as.character(poolID))) %>%
+  pivot_longer(6:8, values_to="predictor", names_to="treatment")
 
-levels(plant$treatment) <- 
-  list("Mean~log[10](age)"="age.avg",
-       "Variance~log[10](age)"="age.var",
-       "Species~pool~richness"="numSpp")
+plant.dat %<>% mutate(treatment=recode(treatment,
+                                       pool_rich="Species pool richness",
+                                       age_mean="Mean log_10(age)",
+                                       age_var="Variance log_10(age)"))
 
-controlPlants <- seedlingData %>% filter(poolID=="C")
+plant.dat %<>% mutate(measurement=recode(measurement,
+                                       pctN="Leaf % N",
+                                       pctC="Leaf % C",
+                                       shoot_g="Shoot biomass (g)",
+                                       root_g="Root biomass (g)",
+                                       ))
 
-controlDF <- data.frame(measurement=rep(c("Shoot~biomass~(g)","Root~biomass~(g)","Leaf~'%'~N","Leaf~'%'~C"),each=3),
-                        treatment=rep(c("Mean~log[10](age)","Variance~log[10](age)","Species~pool~richness"),4),
-                        nofun=rep(c(median(controlPlants$shoot_g),median(controlPlants$root_g),
-                                    median(controlPlants$pctN),median(controlPlants$pctC)),each=3),
-                        letts=paste("(",letters[1:12],")"))
+control.dat <- plant.dat %>% filter(poolID=="C") %>%
+  group_by(measurement,treatment) %>%
+  summarize(response=median(response))
 
-plant.plot <- ggplot(plant,aes(predictor,response)) +
+plant.dat %<>% filter(poolID!="C")
+
+(plant.plot <- ggplot(plant.dat,aes(x=predictor,y=response)) +
   geom_point(alpha=0.5) +
-  facet_grid(measurement~treatment,scales="free",switch="both", labeller = label_parsed) +
-  geom_hline(data=controlDF,aes(yintercept=nofun),color="red") +
-  geom_text(data=controlDF,aes(label=letts,x=-Inf,y=Inf),size=3,hjust=-0.25,vjust=2) +
-  theme_tufte() + theme(panel.background = element_rect(colour = 'black'),strip.placement = "outside",axis.title=element_blank())
+  facet_grid(measurement~treatment,scales="free",switch="both") +
+  geom_hline(data=control.dat,aes(yintercept=response),color="red") +
+  ggthemes::theme_few() + 
+  theme(panel.background = element_rect(colour = 'black'),
+        strip.placement = "outside",
+        strip.text = element_markdown(),
+        axis.title=element_blank()))
 
-jpeg("figs/plantSupp.jpg",width=6.5,height=8,units="in",res=300);plant.plot;dev.off()
+ggsave("output/figs/FigS3.pdf",width=18,height=22, units="cm")
+

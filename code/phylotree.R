@@ -14,7 +14,9 @@ siteCols <- scico(1000, palette = 'hawaii', direction = -1, end=0.9)[col.index]
 # read in issolate meta data
 dat <- read.csv("data/cultureData.csv",as.is=T) %>% 
   rename(label=isoID) %>%
-  mutate(label2=paste(label,accession,Taxonomy, sep=" | ")) %>%
+  mutate(Taxonomy = ifelse(grepl("ales$",Taxonomy) | grepl("aceae$",Taxonomy) | grepl("mycetes$",Taxonomy),
+                           Taxonomy,paste0("*",Taxonomy,"*")),
+         label2=paste(label,accession,Taxonomy, sep=" | ")) %>%
   select(label,label2,site) 
 
 # read in tree and merge with meta data
@@ -34,7 +36,7 @@ ggtree(tree) +
   geom_treescale(x=0) +
   theme(legend.text = element_markdown(),
         legend.title = element_text(vjust=0),
-        legend.position = c(0.75,0.8),
+        legend.position = c(0.82,0.845),
         legend.background = element_rect(colour = 'black', fill = 'white', linetype='solid'))
 
 ggsave("output/figs/FigS1.pdf",units="cm",width=17,height=20)
