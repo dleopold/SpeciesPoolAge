@@ -1,6 +1,6 @@
 ## Repository notes
 
-This repository contains code associated with a plant-fungal microcosm experiment showing how species pool age affects the realtionship between regional and local biodiversity. Working title of the associated manuscript: *Greater local diversity under older species pools may arise from enhanced competitive equivalence*
+This repository contains code associated with a plant-fungal microcosm experiment showing how species pool age affects the realtionship between regional and local biodiversity. Working title of the associated manuscript: *Greater local diversity under older species pools may arise from enhanced competitive equivalence* [*bioRxiv* preprint](https://doi.org/10.1101/2020.04.20.052316)
 
 **Authors:** Devin R. Leopold & Tadashi Fukami
 
