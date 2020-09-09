@@ -14,8 +14,10 @@
 #' * Sp - Experimental species pool samples  
 #' * N - Negative controls  
 #' * M - Mock communities  
-#" * F - Single species samples prepared from pure cultures of isolates used in the experiment  
-
+#' * F - Single species samples prepared from pure cultures of isolates used in the experiment  
+#'
+#' *****
+#' 
 #' ## Prepare environment
 
 #' Load packages
@@ -27,6 +29,8 @@ library(Biostrings)
 library(foreach)
 library(knitr)
 library(phyloseq)
+library(ape)
+library(phytools)
 
 #' Load fasta of target amplicons for all isolates in experiment
 targets <- readDNAStringSet("data/AllIsolates_ITS2_200bp.fasta")
@@ -300,12 +304,22 @@ for(i in 1:nrow(pools)){
 #' write pool composition matrix to file
 write.csv(pools.mx,"output/csv/pools.mx.csv")
 
+#' Read in phylogenetic tree for calculating Faith's PD
+tree <- read.newick("data/LSU_phylo/result.tcs_weighted_phyml/result.tcs_weighted_phyml_tree.txt") %>% 
+  root("KY109285.1") %>% drop.tip("KY109285.1")
+
 #' summarize pool characteristics
-pools.dat <- data.frame <- data.frame(poolID=as.character(pools$poolID),
-                                      pool_rich=apply(pools.mx,1,function(x){ length(isoKey$site_logAge[x]) }),
-                                      age_mean=apply(pools.mx,1,function(x){ mean(isoKey$site_logAge[x], na.rm=T) }),
-                                      age_var=apply(pools.mx,1,function(x){ var(isoKey$site_logAge[x], na.rm=T) }),
-                                      stringsAsFactors =F)
+pools.dat <- data.frame(poolID=as.character(pools$poolID),
+                        pool_rich=apply(pools.mx,1,function(x){ length(isoKey$site_logAge[x]) }),
+                        pool_pd=picante::pd(pools.mx,tree,F)[,1],
+                        age_mean=apply(pools.mx,1,function(x){ mean(isoKey$site_logAge[x], na.rm=T) }),
+                        age_var=apply(pools.mx,1,function(x){ var(isoKey$site_logAge[x], na.rm=T) }),
+                        numThur=apply(pools.mx,1,function(x){ sum(isoKey$site_name[x]=="Thurston", na.rm=T) }),
+                        numOla=apply(pools.mx,1,function(x){ sum(isoKey$site_name[x]=="Ola'a", na.rm=T) }),
+                        numLaup=apply(pools.mx,1,function(x){ sum(isoKey$site_name[x]=="Laupahoehoe", na.rm=T) }),
+                        numKoh=apply(pools.mx,1,function(x){ sum(isoKey$site_name[x]=="Kohala", na.rm=T) }),
+                        numKok=apply(pools.mx,1,function(x){ sum(isoKey$site_name[x]=="Kokee", na.rm=T) }),
+                        stringsAsFactors =F)
 #' Add pool data to sample key
 sampKey %<>% left_join(pools.dat) %>% column_to_rownames("sampID")
 #' Write pool data to file
