@@ -1,7 +1,7 @@
 #' ---
 #' title: Analyses of species pool richness / diversity
 #' author: Devin R Leopold
-#' date: May 23, 2019
+#' date: "`r Sys.Date()`"
 #' output:
 #'    html_document:
 #'      toc: true
@@ -69,7 +69,12 @@ lme(gnls.H0.resid ~ 0+pool_rich*age_mean+pool_rich*age_var, random=~1|poolID, da
 #' Drop richness:variance but test direct effect of variance
 lme(gnls.H0.resid ~ 0+pool_rich*age_mean+age_var, random=~1|poolID, data=dat,method="ML") %>% drop1(test="Chisq")
 #' Refit final model
-(gnls.H0.residMod.avg <- lme(gnls.H0.resid ~ 0+pool_rich*age_mean, random=~1|poolID, data=dat,method="REML")) %>% summary
+(gnls.H0.residMod.avg <- lme(gnls.H0.resid ~ 0+pool_rich*age_mean, random=~1|poolID, data=dat,method="ML")) %>% summary
+
+#' Test for effect of species pool phylogenetic diversity
+lme(gnls.H0.resid ~ 0+pool_pd+pool_rich*age_mean, random=~1|poolID, data=dat,method="REML") %>% summary
+(gnls.H0.residMod.pd <- lme(gnls.H0.resid ~ 0+pool_pd*age_mean, random=~1|poolID, data=dat,method="REML")) %>% summary
+AIC(gnls.H0.residMod.avg,gnls.H0.residMod.pd)
 
 #' ### Make plots
 #' 
@@ -126,7 +131,7 @@ gnls.plot.func <- function(gnls.mod, lme.resid.mod,y_frame,y_lab){
 }
 #+ fig.align="center", out.width="90%", fig.asp=5.5/11
 gnls.plot.func(gnls.H0,gnls.H0.residMod.avg,20,"Observed richness")
-ggsave("output/figs/Fig1.pdf",height=10, width=18, units="cm") 
+ggsave("output/figs/Fig2.pdf",height=10, width=18, units="cm") 
 
 #' ### Dependencies
 sessionInfo()

@@ -1,7 +1,7 @@
 #' ---
 #' title: Analyses of functional / phylogenitic diversity
 #' author: Devin R Leopold
-#' date: May 23, 2019
+#' date: "`r Sys.Date()`"
 #' output:
 #'    html_document:
 #'      toc: true
@@ -90,7 +90,7 @@ pools.dat %>%
         axis.line = element_line(size=0.3),
         axis.ticks = element_line(size=0.12),
         axis.ticks.length = unit(.05, "cm"))
-ggsave("output/figs/Fig2.pdf",height=8, width=11, units="cm") 
+ggsave("output/figs/Fig3.pdf",height=8, width=11, units="cm") 
 
 #' ## Plot species pool age or variance vs functional / phylogenetic diversity
 pan.lett <- data.frame(metric=c("Mean age","Variance age"),lab=c("(a)","(b)"))
@@ -109,7 +109,7 @@ pools.dat %>%
         strip.placement = "outside",
         strip.text = element_text(size=12),
         legend.position = "none")
-ggsave("output/figs/Fig2_alt.pdf",height=4, width=8)  
+ggsave("output/figs/Fig3_alt.pdf",height=4, width=8)  
 
 
 #' # Standardized effect size of mean pairwise distance (ses-mpd)
@@ -157,4 +157,4 @@ ggplot(ses.dat, aes(x=age_mean,y=mpd.obs.z))+
         axis.line = element_line(size=0.3),
         axis.ticks = element_line(size=0.12),
         axis.ticks.length = unit(.05, "cm"))
-ggsave("output/figs/Fig3.pdf",height=8, width=11, units="cm")  
+ggsave("output/figs/Fig4.pdf",height=8, width=11, units="cm")  

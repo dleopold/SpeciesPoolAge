@@ -33,9 +33,11 @@ composition: output/html/CompositionalAnalyses.html
 output/html/CompositionalAnalyses.html: code/CompositionalAnalyses.R output/rds/phy.rds output/csv/biolog.csv | housekeeping
 	Rscript -e 'rmarkdown::render("$<", output_dir = "output/html", knit_root_dir = "$(CURDIR)")'
 	
-supplemental: output/figs/FigS1.pdf output/figs/FigS3.pdf
-output/figs/FigS1.pdf: code/phylotree.R | housekeeping
+supplemental: output/figs/FigS1.jpg output/figs/FigS2.jpg output/figs/FigS3.jpg
+output/figs/FigS1.jpg: code/phylotree.R | housekeeping
 	Rscript $<
-output/figs/FigS3.pdf: code/plantData.R output/csv/pools.dat.csv | housekeeping
+output/figs/FigS3.jpg: code/RelativeAbundanceOfTaxa.R | housekeeping
+	Rscript $<
+output/figs/FigS2.jpg: code/plantData.R output/csv/pools.dat.csv | housekeeping
 	Rscript $<
 	

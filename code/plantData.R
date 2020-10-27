@@ -39,5 +39,5 @@ plant.dat %<>% filter(poolID!="C")
         strip.text = element_markdown(),
         axis.title=element_blank()))
 
-ggsave("output/figs/FigS3.pdf",width=18,height=22, units="cm")
+ggsave("output/figs/FigS2.jpg",width=18,height=22, units="cm")
 

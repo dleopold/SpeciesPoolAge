@@ -1,8 +1,10 @@
 ## Repository notes
 
-This repository contains code associated with a plant-fungal microcosm experiment showing how species pool age affects the realtionship between regional and local biodiversity. Working title of the associated manuscript: *Greater local diversity under older species pools may arise from enhanced competitive equivalence* [*bioRxiv* preprint](https://doi.org/10.1101/2020.04.20.052316)
+This repository contains code associated with a plant-fungal microcosm experiment showing how species pool age affects the realtionship between regional and local biodiversity: *Greater local diversity under older species pools may arise from enhanced competitive equivalence*, ***Ecology Letters*** (accepted).
 
 **Authors:** Devin R. Leopold & Tadashi Fukami
+
+**Abstract:** Ecological communities typically contain more species when located within geologically older regions. This pattern is traditionally attributed to the long-term accumulation of species in the regional species pool, with local species interactions playing a minor role. We provide evidence suggesting a more important role of local species interactions than generally assumed. We assembled 320 communities of root-associated fungi under 80 species pools, varying species-pool richness and the mean age of the sites from which the fungi were collected across a 4-myr soil chronosequence. We found that local diversity increased more with increasing species-pool richness when species were from older sites. We also found that older species pools had lower functional and phylogenetic diversity, indicating greater competitive equivalence among species. Our results suggest that older regions have higher local richness not simply because older pools are more speciose, but also because species have evolved traits that allow them to locally co-occur.
 
 *******
 
